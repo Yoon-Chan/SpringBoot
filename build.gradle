@@ -7,7 +7,6 @@ buildscript {
     }
     repositories {
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
@@ -31,12 +30,17 @@ version '1.0-SNAPSHOT'
 //각종 의존성(라이브러리)들을 어떤 원격 저장소에서 받을지를 정한다.
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    //Junit
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1") {
+        exclude module:'junit-platform-commons'
+    }
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-engine:1.5.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-commons:1.5.1")
+
     implementation('org.springframework.boot:spring-boot-starter-web')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     //implementation('org.projectlombok:lombok') gradle 5.x미만일 때 사용가능. 5.x이상인 경우 아래와 같이 사용.
@@ -50,6 +54,14 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('com.h2database:h2')
     implementation('org.springframework.boot:spring-boot-starter-mustache')
+
+    // 소셜 로그인 등 클라이언트 입장에서 소셜 기능 구현시 필요한 의존성입니다.
+    //spring-security-oauth2-client와 spring-security-oauth2-jose를 기본으로 관리해줍니다
+    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
+    implementation('org.springframework.session:spring-session-jdbc')
+    testImplementation('org.springframework.security:spring-security-test')
+
+
 }
 
 test {
